@@ -5,8 +5,8 @@ import numpy as np
 from sklearn.feature_extraction.text import HashingVectorizer
 
 from Classes import OntologyType
-from ir import EntityCentric
-from retrieval_models import BM25_sparse
+#from ir import EntityCentric
+#from retrieval_models import BM25_sparse
 
 
 def select_types(score_type_list: List[Tuple[float, OntologyType]]):
@@ -22,7 +22,7 @@ def select_types(score_type_list: List[Tuple[float, OntologyType]]):
         out_types.append(selected_type.full_name)
         selected_type = selected_type.parent
     return out_types
-
+'''
 def load_entity_retrieval(k=100) -> Tuple[EntityCentric, HashingVectorizer]:
     """Loads the data needed for entity retrieval and instantiates objects used"""
     print("Loading data")
@@ -39,3 +39,4 @@ def load_entity_retrieval(k=100) -> Tuple[EntityCentric, HashingVectorizer]:
     bm25 = BM25_sparse(index)
     ec = EntityCentric(np.array(types), np.array(entities), bm25, k=k)
     return ec, vectorizer
+'''

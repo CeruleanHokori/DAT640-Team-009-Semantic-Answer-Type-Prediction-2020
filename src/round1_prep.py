@@ -8,8 +8,8 @@ from sklearn import svm
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 # File location for training and test file
-train_file = r"Data\smart-dataset-master\datasets\DBpedia\smarttask_dbpedia_train.json"
-test_file = r"Data\smart-dataset-master\datasets\DBpedia\smarttask_dbpedia_test.json"
+train_file = r"C:\Users\ziadr\Desktop\dat640\smart-dataset\DAT640-Team-009-Semantic-Answer-Type-Prediction-2020\Data\smart-dataset-master\datasets\DBpedia\smarttask_dbpedia_train.json"
+test_file = r"C:\Users\ziadr\Desktop\dat640\smart-dataset\DAT640-Team-009-Semantic-Answer-Type-Prediction-2020\Data\smart-dataset-master\datasets\DBpedia\smarttask_dbpedia_test.json"
 
 def target_type(json_object): 
     """Find the target type for a question object.
@@ -113,5 +113,5 @@ if __name__ == "__main__":
 
     # Load model
     print("Saving model")
-    with open("./Data/pickle/model.pkl","wb") as f:
+    with open("model.pkl","wb") as f:
         pickle.dump(clf, f)

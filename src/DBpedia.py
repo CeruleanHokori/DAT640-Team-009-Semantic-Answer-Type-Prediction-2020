@@ -123,18 +123,18 @@ def strip_dbpedia_url(url: str, type:str) -> str:
     return url.strip("/")
 
 if __name__ == "__main__":
-    nt = get_types("Data/dbpedia/dbpedia_2016-10.nt")
-    entities = get_entities("Data/dbpedia/instance_types_en.ttl", nt)
+    nt = get_types("dbpedia_2016-10.nt")
+    entities = get_entities("instance_types_en.ttl", nt)
 
     # Creates a basic entity representation for all entities
     entity_repr = {e.name: f"{e.name} {e.ontology_type.name}" for e in entities.values()}
 
 
     # Add to entity representation
-    extract_literal(entity_repr, "Data/dbpedia/long_abstracts_en.ttl")
-    extract_uri(entity_repr, "Data/dbpedia/redirects_en.ttl")
-    extract_uri(entity_repr, "Data/dbpedia/disambiguations_en.ttl")
-    extract_uri(entity_repr, "Data/dbpedia/article_categories_en.ttl")
+    extract_literal(entity_repr, "long_abstracts_en.ttl")
+    extract_uri(entity_repr, "redirects_en.ttl")
+    extract_uri(entity_repr, "disambiguations_en.ttl")
+    extract_uri(entity_repr, "article_categories_en.ttl")
 
     # index entity representation using Hashing vectorizer
     print("Creating index")
@@ -142,10 +142,10 @@ if __name__ == "__main__":
     index = vectorizer.transform([e for  e in entity_repr.values()])
 
     print("Pickling index")
-    with open("Data/pickle/index.pkl", "wb") as f:
+    with open("index.pkl", "wb") as f:
         pickle.dump(index, f)
 
     print("Pickling entity and type lists")
-    with open("Data/pickle/types-entities.pkl", "wb") as f:
+    with open("types-entities.pkl", "wb") as f:
         pickle.dump((list(nt.values()), list(entities.values())), f)
     print("Finished pickling data")

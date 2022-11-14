@@ -1,14 +1,16 @@
 import json
 import pickle
-
-from helper_functions import load_entity_retrieval, select_types
+import torch
+from helper_functions import  select_types
+from DBpedia import get_types
+#Didnt import load_entity_retrieval because of error
 from round1_prep import (extract_features, get_category_type, get_label,
                          question_target, test_file, train_file)
-
+from pred_bert import predict
 if __name__ == "__main__":
     print("Starting Part 1")
     print("Loading model")
-    with open("./Data/pickle/model.pkl",'rb') as f:
+    with open("model.pkl",'rb') as f:
         model = pickle.load(f)
 
     print("Preparing data")
@@ -30,18 +32,25 @@ if __name__ == "__main__":
     with open(test_file, "r")  as read_f:
         questions = json.load(read_f)
 
-    ec, vectorizer = load_entity_retrieval(150)
+    #ec, vectorizer = load_entity_retrieval(150)
 
     out = []
     total = len(results)
+    dico = get_types("dbpedia_2016-10.nt")
+    print(dico.keys())
     print("Starting prediction")
+    model = torch.load("./models")
     for i, (category, question) in enumerate(zip(results, questions)):
         category, q_type = get_category_type(category)
         if (i + 1) % (total // 1000) == 0:
             print(f"\r{round(100*(i/total), 1)}% processed...", end="")
         if category == "resource":
-            query = vectorizer.transform([question["question"]])
-            predicted = ec.Score(query)
+            #query = vectorizer.transform([question["question"]])
+            #predicted = ec.Score(query)
+            type_name = predict(question["question"],model=model)
+            if type_name == "dbo:Location":
+                type_name = "dbo:Place"
+            predicted = [(0,dico[type_name[4:]])] #BERT model version
             pred = {
                 "id": question["id"],
                 "category": category,
@@ -57,5 +66,5 @@ if __name__ == "__main__":
 
     print("Completed Part 2")
 
-    with open("Data/baseline_predictions.json", "w") as f:
+    with open("advanced_predictions.json", "w") as f:
         json.dump(out, f)

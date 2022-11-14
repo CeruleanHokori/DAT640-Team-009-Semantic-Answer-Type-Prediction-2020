@@ -6,7 +6,7 @@ from numpy.typing import ArrayLike
 from Classes import Entity, OntologyType
 
 
-class EntityCentric():
+class EntityCentric:
     def __init__(self, types: np.ndarray[OntologyType], entities: np.ndarray[Entity], retrieval_model, k:int = 10, num_types: int = 10) -> None:
         """Score a list of types according to an entity centric model.
         
