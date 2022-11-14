@@ -1,5 +1,9 @@
 # Semantic Answer Type Prediction
 
+## Paper
+
+Read our paper DAT (2).pdf
+
 ## How to run
 
 Required packages can be found in the `requirements.txt` file.
